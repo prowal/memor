@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<!-- 
+	MIT License
+
+	La Belle Physique
+
+	Copyright (c) 2019 Gaétan Walter
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+	-->
+
+	<title>La Belle Physique</title>
+
+	<!--<link rel="icon" href="img/index.ico" />-->
+
+	<link rel="stylesheet" href="lib/w3.css">
+	<link rel="stylesheet" href="lib/w3-theme-teal.css"> 
+	<link rel="stylesheet" href="lib/w3-theme-indigo.css"> 
+
+	<link rel="stylesheet" href="lib/fontawesome/css/all.min.css">
+	
+	<!--<link rel="stylesheet" href="lib/phy.css">-->
+	<script src="lib/sql.js"></script>
+	<script src="lib/AnkiDecoder.js"></script>
+
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+</head>
+<body class="w3-light-grey">
+	<!-- Header bar -->
+	<div class="w3-bar w3-theme w3-left-align w3-large">
+		<a class="w3-bar-item w3-button w3-hover-grey w3-large w3-theme" id="barsButton"><i class="fa fa-bars"></i></a>
+	</div>
+
+	<!-- Sidebar -->
+	<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-white w3-animate-left" id="sidebar">
+		<a class="w3-right w3-xlarge w3-padding-large w3-hover-black" id="closeSidebarButton" title="Close Menu">
+			<i class="fa fa-times"></i>
+		</a>
+		<h4 class="w3-bar-item"><b>Menu</b></h4>
+		<a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+		<a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+		<a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+		<a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
+	</nav>
+
+	<!-- Overlay effect when opening sidebar on small screens -->
+	<div class="w3-overlay" style="cursor:pointer" title="close side menu" id="overlay"></div>
+	
+	<div class="" style="">
+		<input type="file" accept="*/*" id="fileInput" class="inputfile">
+		QEGSDGLNLKNSMKDNGLKMSNDGLKNS
+		DLGNLSDNGLKSN?DGLNSDG
+		sdgSDG
+		SDG
+		sdgSDGsdgaaa
+		sdgSDGsdgsaaa
+		grantedsdgsdg
+	</div>
+
+<script>
+const $ = document.querySelector.bind(document);
+
+const sidebar = $("#sidebar");
+
+const barsButton = $("#barsButton");
+barsButton.addEventListener("click", onBarsButtonClick);
+
+const closeSidebarButton = $("#closeSidebarButton");
+closeSidebarButton.addEventListener("click", onCloseSidebarButtonClick);
+
+const overlay = $("#overlay");
+overlay.addEventListener("click", onOverlayClick);
+
+let fileInput = $("#fileInput");
+fileInput.addEventListener("change", onFileInputChange);
+
+let fileReader = new FileReader();
+fileReader.addEventListener("loadend", onFileReaderLoadEnd);
+
+let ankiDecoder = new AnkiDecoder();
+
+
+/*----------------------------------------------------------------------------------------------
+---------------------------------------------EVENTS---------------------------------------------
+----------------------------------------------------------------------------------------------*/
+window.onload = function() {
+
+};
+
+function onBarsButtonClick(){
+  if (sidebar.style.display === 'block') {
+    sidebar.style.display = 'none';
+    overlay.style.display = "none";
+  } else {
+    sidebar.style.display = 'block';
+    overlay.style.display = "block";
+  }
+}
+
+function onCloseSidebarButtonClick(){
+	console.log("triggered");
+  sidebar.style.display = "none";
+  overlay.style.display = "none";
+}
+
+function onOverlayClick(){
+  sidebar.style.display = "none";
+  overlay.style.display = "none";
+}
+
+function onFileInputChange(){
+	fileReader.readAsArrayBuffer(fileInput.files[0]);
+}
+
+function onFileReaderLoadEnd(){
+	ankiDecoder.decode(fileReader.result);
+}
+
+</script>
+</body>
+</html> 
