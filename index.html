@@ -50,26 +50,29 @@
 <body class="w3-light-grey">
 	<!-- Header bar -->
 	<div class="w3-bar w3-theme w3-left-align w3-large">
-		<a class="w3-bar-item w3-button w3-hover-grey w3-large w3-theme" id="barsButton"><i class="fa fa-bars"></i></a>
+		<a class="w3-bar-item w3-button w3-hover-grey w3-large w3-theme" id="barsButton" onclick="w3_open()"><i class="fa fa-bars"></i></a>
 	</div>
 
-	<!-- Sidebar -->
-	<nav class="w3-sidebar w3-bar-block w3-collapse w3-large w3-white w3-animate-left" id="sidebar">
-		<a class="w3-right w3-xlarge w3-padding-large w3-hover-black" id="closeSidebarButton" title="Close Menu">
-			<i class="fa fa-times"></i>
-		</a>
-		<h4 class="w3-bar-item"><b>Menu</b></h4>
-		<a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-		<a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-		<a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-		<a class="w3-bar-item w3-button w3-hover-black" href="#">Link</a>
-	</nav>
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container">
+    <a href="#" onclick="w3_close()" class="w3-right w3-xlarge w3-padding w3-hover-grey" title="close menu">
+      <i class="fa fa-times"></i>
+    </a>
+    <h4><b>DECKS</b></h4>
+  </div>
+  <div class="w3-bar-block">
+    <!--<a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>PORTFOLIO</a> 
+    <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a> 
+    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>-->
+  </div>
+</nav>
 
-	<!-- Overlay effect when opening sidebar on small screens -->
-	<div class="w3-overlay" style="cursor:pointer" title="close side menu" id="overlay"></div>
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 	
 	<div class="" style="">
-		<input type="file" accept="*/*" id="fileInput" class="inputfile">
+		<input type="file" accept=".apkg" id="fileInput" class="inputfile">
 		QEGSDGLNLKNSMKDNGLKMSNDGLKNS
 		DLGNLSDNGLKSN?DGLNSDG
 		sdgSDG
@@ -100,6 +103,17 @@ let fileReader = new FileReader();
 fileReader.addEventListener("loadend", onFileReaderLoadEnd);
 
 let ankiDecoder = new AnkiDecoder();
+
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
 
 
 /*----------------------------------------------------------------------------------------------
