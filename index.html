@@ -55,9 +55,9 @@
 	</div>
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar">
   <div class="w3-container">
-    <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-xlarge w3-padding w3-hover-grey" title="close menu">
+    <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-large w3-padding w3-hover-grey w3-circle" title="close menu">
       <i class="fa fa-times"></i>
     </a>
     <h4><b>DECKS</b></h4>
@@ -84,8 +84,13 @@
 <div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 	
 <div class="w3-main" style="margin-left:300px">
+	<div class="w3-card-4 w3-margin w3-padding w3-white" style="height: calc(100vh - 150px);">
+		<div id="cardContainer"></div>
+		<div id="cardFooter">
+			<div class="w3-large w3-button w3-block"><i class="fa fa-align-justify"></i> Afficher la réponse</div>
+		</div>
+	</div>
 	<input type="file" accept=".apkg" id="fileInput" class="inputfile">
-	aaa
 </div>
 
 <script>
@@ -130,6 +135,10 @@ function w3_close() {
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("myOverlay").style.display = "none";
 }
+
+/*----------------------------------------------------------------------------------------------
+------------------------------------POPULATE TREE FUNCTIONS-------------------------------------
+----------------------------------------------------------------------------------------------*/
 
 function addSidebarDeck(_elt, _title){
 	// Create the new element
@@ -183,9 +192,6 @@ function populateTree(){
 				addSidebarDeck(folder, tree[i].decks[j].title);
 			}
 		}
-		console.log(tree[i]);
-		//addSidebarFolder(treeElt);
-		//addSidebarDeck(treeElt);
 	}
 
 }
@@ -216,6 +222,10 @@ function onCloseSidebarButtonClick(){
 function onOverlayClick(){
   sidebar.style.display = "none";
   overlay.style.display = "none";
+}
+
+function onFolderClick(){
+
 }
 
 function onFileInputChange(){
