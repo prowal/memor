@@ -28,7 +28,7 @@
 	SOFTWARE.
 	-->
 
-	<title>La Belle Physique</title>
+	<title>MEMOR</title>
 
 	<!--<link rel="icon" href="img/index.ico" />-->
 
@@ -50,18 +50,30 @@
 <body class="w3-light-grey">
 	<!-- Header bar -->
 	<div class="w3-bar w3-theme w3-left-align w3-large">
-		<a class="w3-bar-item w3-button w3-hover-grey w3-large w3-theme" id="barsButton" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+		<a class="w3-hide-large w3-bar-item w3-button w3-hover-grey w3-xlarge w3-theme" id="barsButton" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+		<span class="w3-bar-item w3-xlarge"><b>MEMOR</b></span>
 	</div>
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
   <div class="w3-container">
-    <a href="#" onclick="w3_close()" class="w3-right w3-xlarge w3-padding w3-hover-grey" title="close menu">
+    <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-xlarge w3-padding w3-hover-grey" title="close menu">
       <i class="fa fa-times"></i>
     </a>
     <h4><b>DECKS</b></h4>
   </div>
-  <div class="w3-bar-block">
+  <div class="w3-bar-block" id="tree">
+		<!--<div class="w3-large w3-button w3-block w3-left-align"><i class="fa fa-align-justify"></i> Titre du deck</div>
+		<div class="w3-large w3-button w3-block w3-left-align"><i class="fa fa-align-justify"></i> Titre du deck</div>
+		<div class="w3-large w3-button w3-block w3-left-align"><i class="fa fa-align-justify"></i> Titre du deck</div>
+		<div class="w3-large w3-block w3-left-align w3-grey">
+			<div class="w3-large w3-button w3-block w3-left-align w3-theme2"><i class="fa fa-folder"></i> Titre du dossier</div>
+			<div class="w3-margin-left">
+				<div class="w3-large w3-button w3-block w3-left-align"><i class="fa fa-align-justify"></i> Titre du deck</div>
+				<div class="w3-large w3-button w3-block w3-left-align"><i class="fa fa-align-justify"></i> Titre du deck</div>
+			</div>-->
+
+		</div>
     <!--<a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>PORTFOLIO</a> 
     <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a> 
     <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>-->
@@ -71,30 +83,15 @@
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 	
-	<div class="" style="">
-		<input type="file" accept=".apkg" id="fileInput" class="inputfile">
-		QEGSDGLNLKNSMKDNGLKMSNDGLKNS
-		DLGNLSDNGLKSN?DGLNSDG
-		sdgSDG
-		SDG
-		sdgSDGsdgaaa
-		sdgSDGsdgsaaa
-		grantedsdgsdg
-	</div>
+<div class="w3-main" style="margin-left:300px">
+	<input type="file" accept=".apkg" id="fileInput" class="inputfile">
+	aaa
+</div>
 
 <script>
 const $ = document.querySelector.bind(document);
 
-const sidebar = $("#sidebar");
-
-const barsButton = $("#barsButton");
-barsButton.addEventListener("click", onBarsButtonClick);
-
-const closeSidebarButton = $("#closeSidebarButton");
-closeSidebarButton.addEventListener("click", onCloseSidebarButtonClick);
-
-const overlay = $("#overlay");
-overlay.addEventListener("click", onOverlayClick);
+const treeElt = $("#tree");
 
 let fileInput = $("#fileInput");
 fileInput.addEventListener("change", onFileInputChange);
@@ -104,7 +101,26 @@ fileReader.addEventListener("loadend", onFileReaderLoadEnd);
 
 let ankiDecoder = new AnkiDecoder();
 
-// Script to open and close sidebar
+
+function Deck(_title, _cards = []) {
+	this.title = _title;
+	this.cards = _cards;
+}
+function Folder(_title, _decks = []) {
+	this.title = _title;
+	this.decks = _decks;
+}
+
+let f1 = new Folder("premier dossier",[new Deck("gloubi"), new Deck("boulga")]);
+let f2 = new Folder("deuzieme dossier",[new Deck("gregaga")]);
+
+let tree = [
+	f1,f2
+]
+
+/*----------------------------------------------------------------------------------------------
+--------------------------------Script to open and close sidebar--------------------------------
+----------------------------------------------------------------------------------------------*/
 function w3_open() {
     document.getElementById("mySidebar").style.display = "block";
     document.getElementById("myOverlay").style.display = "block";
@@ -115,12 +131,70 @@ function w3_close() {
     document.getElementById("myOverlay").style.display = "none";
 }
 
+function addSidebarDeck(_elt, _title){
+	// Create the new element
+	let newElt = document.createElement("div");
+	newElt.className = "w3-large w3-button w3-block w3-left-align";
+
+	// Add the icon
+	let icon = document.createElement("i");
+	icon.className ="fa fa-align-justify fa-lg";
+	newElt.appendChild(icon);
+
+	// Add the title
+	let title = document.createTextNode(" " + _title);
+	newElt.appendChild(title);
+
+	// Add the newElt in the sidebar
+	_elt.appendChild(newElt)
+}
+
+function addSidebarFolder(_elt, _title){
+	// Create the new element
+	let newElt = document.createElement("div");
+	newElt.className = "w3-large w3-block w3-left-align w3-grey";
+
+	// Add the folder line
+	let folder = document.createElement("div");
+	folder.className ="w3-large w3-button w3-block w3-left-align w3-theme2";
+	let folderIcon = document.createElement("i");
+	folderIcon.className ="fa fa-folder fa-lg";
+	folder.appendChild(folderIcon);
+	let title = document.createTextNode(" " + _title);
+	folder.appendChild(title);
+	newElt.appendChild(folder);
+
+	// Add the deck container
+	let deckContainer = document.createElement("div");
+	deckContainer.className = "w3-margin-left";
+	newElt.appendChild(deckContainer);
+
+	// Add the newElt in the sidebar
+	_elt.appendChild(newElt)
+
+	return newElt;
+}
+
+function populateTree(){
+	for(let i = 0; i < tree.length; i++){
+		if(tree[i].constructor.name == "Folder"){
+			let folder = addSidebarFolder(treeElt, tree[i].title);
+			for(let j = 0; j < tree[i].decks.length; j++){
+				addSidebarDeck(folder, tree[i].decks[j].title);
+			}
+		}
+		console.log(tree[i]);
+		//addSidebarFolder(treeElt);
+		//addSidebarDeck(treeElt);
+	}
+
+}
 
 /*----------------------------------------------------------------------------------------------
 ---------------------------------------------EVENTS---------------------------------------------
 ----------------------------------------------------------------------------------------------*/
 window.onload = function() {
-
+	populateTree();
 };
 
 function onBarsButtonClick(){
