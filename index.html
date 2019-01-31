@@ -228,6 +228,7 @@ function populateTree(){
 ----------------------------------------------------------------------------------------------*/
 function retrieveLocalStorage(){
 	if (typeof(Storage) !== "undefined") {
+		console.log("retrieve");
 		let a = JSON.parse(localStorage.getItem("tree"));
 		if(a ==! undefined){
 			tree = a;
