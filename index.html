@@ -206,9 +206,11 @@ function addSidebarPlus(_elt, _title){
 }
 
 function populateTree(){
+	console.log(tree);
 	for(let i = 0; i < tree.length; i++){
-		// deal with folders
-		if(tree[i].constructor.name == "Folder"){
+				// deal with folders
+				console.log(tree[i].cards);
+		if(tree[i].cards == undefined){
 			let folder = addSidebarFolder(treeElt, tree[i].title);
 			for(let j = 0; j < tree[i].decks.length; j++){
 				addSidebarDeck(folder.children[1], tree[i].decks[j].title);
@@ -216,7 +218,7 @@ function populateTree(){
 			addSidebarPlus(folder.children[1]);
 		}
 		// deal with root decks
-		if(tree[i].constructor.name == "Deck"){
+		if(tree[i].decks == undefined){
 			addSidebarDeck(treeElt, tree[i].title);
 		}
 	}
@@ -227,10 +229,10 @@ function populateTree(){
 -----------------------------------------LOCAL STORAGE------------------------------------------
 ----------------------------------------------------------------------------------------------*/
 function retrieveLocalStorage(){
-	if (typeof(Storage) !== "undefined") {
+	if (typeof(Storage) !== undefined) {
 		console.log("retrieve");
 		let a = JSON.parse(localStorage.getItem("tree"));
-		if(a !== "undefined"){
+		if(a !== undefined){
 			tree = a;
 		}
 	} else {
@@ -239,7 +241,7 @@ function retrieveLocalStorage(){
 }
 
 function saveLocalStorage(){
-	if (typeof(Storage) !== "undefined") {
+	if (typeof(Storage) !== undefined) {
 		localStorage.setItem("tree", JSON.stringify(tree));
 		console.log("save!")
 		console.log(tree);
@@ -253,7 +255,6 @@ function saveLocalStorage(){
 ----------------------------------------------------------------------------------------------*/
 window.onload = function() {
 	retrieveLocalStorage();
-	console.log(tree);
 	populateTree();
 };
 
