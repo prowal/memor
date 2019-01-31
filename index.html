@@ -84,10 +84,11 @@
 <div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 	
 <div class="w3-main" style="margin-left:300px">
-	<div class="w3-card-4 w3-margin w3-padding w3-white" style="height: calc(100vh - 150px);">
-		<div id="cardContainer"></div>
+	<div class="w3-card-4 w3-margin w3-white" style="height: calc(100vh - 120px);">
+		<div id="cardContainer" style="height: calc(100% - 43px);">
+		</div>
 		<div id="cardFooter">
-			<div class="w3-large w3-button w3-block"><i class="fa fa-align-justify"></i> Afficher la réponse</div>
+			<div class="w3-large w3-button w3-block w3-theme2"><i class="fa fa-share-square fa-lg"></i> Afficher la réponse</div>
 		</div>
 	</div>
 	<input type="file" accept=".apkg" id="fileInput" class="inputfile">
@@ -120,7 +121,7 @@ let f1 = new Folder("premier dossier",[new Deck("gloubi"), new Deck("boulga")]);
 let f2 = new Folder("deuzieme dossier",[new Deck("gregaga")]);
 
 let tree = [
-	f1,f2
+	f1,f2,new Deck("solodeck1"),new Deck("solodeck2")
 ]
 
 /*----------------------------------------------------------------------------------------------
@@ -161,11 +162,11 @@ function addSidebarDeck(_elt, _title){
 function addSidebarFolder(_elt, _title){
 	// Create the new element
 	let newElt = document.createElement("div");
-	newElt.className = "w3-large w3-block w3-left-align w3-grey";
+	newElt.className = "w3-large w3-block w3-left-align w3-theme2";
 
 	// Add the folder line
 	let folder = document.createElement("div");
-	folder.className ="w3-large w3-button w3-block w3-left-align w3-theme2";
+	folder.className ="w3-large w3-button w3-block w3-left-align w3-white";
 	let folderIcon = document.createElement("i");
 	folderIcon.className ="fa fa-folder fa-lg";
 	folder.appendChild(folderIcon);
@@ -175,8 +176,12 @@ function addSidebarFolder(_elt, _title){
 
 	// Add the deck container
 	let deckContainer = document.createElement("div");
-	deckContainer.className = "w3-margin-left";
+	deckContainer.className = "w3-margin-left w3-white";
+	deckContainer.style.display = "none";
 	newElt.appendChild(deckContainer);
+
+	//Set the callbacks
+	folder.addEventListener("click", function(event){onFolderClick(event)});
 
 	// Add the newElt in the sidebar
 	_elt.appendChild(newElt)
@@ -186,11 +191,16 @@ function addSidebarFolder(_elt, _title){
 
 function populateTree(){
 	for(let i = 0; i < tree.length; i++){
+		// deal with folders
 		if(tree[i].constructor.name == "Folder"){
 			let folder = addSidebarFolder(treeElt, tree[i].title);
 			for(let j = 0; j < tree[i].decks.length; j++){
-				addSidebarDeck(folder, tree[i].decks[j].title);
+				addSidebarDeck(folder.children[1], tree[i].decks[j].title);
 			}
+		}
+		// deal with root decks
+		if(tree[i].constructor.name == "Deck"){
+			addSidebarDeck(treeElt, tree[i].title);
 		}
 	}
 
@@ -224,8 +234,23 @@ function onOverlayClick(){
   overlay.style.display = "none";
 }
 
-function onFolderClick(){
+function onFolderClick(_event){
+	let elt
+	if(_event.target.childElementCount == 0){ // clicked on the icon
+		elt = _event.target.parentNode;
+	} else {
+		elt = _event.target;
+	}
 
+	if(elt.nextSibling.style.display == "none"){
+		elt.classList.add("w3-theme2");
+		elt.classList.remove("w3-white");
+		elt.nextSibling.style.display = "block";
+	} else {
+		elt.classList.remove("w3-theme2");
+		elt.classList.add("w3-white");
+		elt.nextSibling.style.display = "none";
+	}
 }
 
 function onFileInputChange(){
