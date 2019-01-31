@@ -230,10 +230,8 @@ function retrieveLocalStorage(){
 	if (typeof(Storage) !== "undefined") {
 		console.log("retrieve");
 		let a = JSON.parse(localStorage.getItem("tree"));
-		console.log(a);
 		if(a !== "undefined"){
 			tree = a;
-			console.log(a);
 		}
 	} else {
 		// Sorry! No Web Storage support..
@@ -255,6 +253,7 @@ function saveLocalStorage(){
 ----------------------------------------------------------------------------------------------*/
 window.onload = function() {
 	retrieveLocalStorage();
+	console.log(tree);
 	populateTree();
 };
 
@@ -280,7 +279,6 @@ function onFolderClick(_event){
 function onFileInputChange(){
 	tree = [f1,f2,new Deck("solodeck1"),new Deck("solodeck2")];
 	saveLocalStorage();
-	retrieveLocalStorage();
 	fileReader.readAsArrayBuffer(fileInput.files[0]);
 }
 
