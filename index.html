@@ -120,9 +120,7 @@ function Folder(_title, _decks = []) {
 let f1 = new Folder("premier dossier",[new Deck("gloubi"), new Deck("boulga")]);
 let f2 = new Folder("deuzieme dossier",[new Deck("gregaga")]);
 
-let tree = [
-	f1,f2,new Deck("solodeck1"),new Deck("solodeck2")
-]
+let tree = [];
 
 /*----------------------------------------------------------------------------------------------
 --------------------------------Script to open and close sidebar--------------------------------
@@ -189,6 +187,24 @@ function addSidebarFolder(_elt, _title){
 	return newElt;
 }
 
+function addSidebarPlus(_elt, _title){
+	// Create the new element
+	let newElt = document.createElement("div");
+	newElt.className = "w3-large w3-button w3-block w3-left-align";
+
+	// Add the icon
+	let icon = document.createElement("i");
+	icon.className ="fa fa-plus-circle fa-lg";
+	newElt.appendChild(icon);
+
+	// Add the title
+	let title = document.createTextNode(" Ajouter un paquet");
+	newElt.appendChild(title);
+
+	// Add the newElt in the sidebar
+	_elt.appendChild(newElt)
+}
+
 function populateTree(){
 	for(let i = 0; i < tree.length; i++){
 		// deal with folders
@@ -197,42 +213,48 @@ function populateTree(){
 			for(let j = 0; j < tree[i].decks.length; j++){
 				addSidebarDeck(folder.children[1], tree[i].decks[j].title);
 			}
+			addSidebarPlus(folder.children[1]);
 		}
 		// deal with root decks
 		if(tree[i].constructor.name == "Deck"){
 			addSidebarDeck(treeElt, tree[i].title);
 		}
 	}
+	addSidebarPlus(treeElt);
+}
 
+/*----------------------------------------------------------------------------------------------
+-----------------------------------------LOCAL STORAGE------------------------------------------
+----------------------------------------------------------------------------------------------*/
+function retrieveLocalStorage(){
+	if (typeof(Storage) !== "undefined") {
+		let a = JSON.parse(localStorage.getItem("tree"));
+		if(a ==! undefined){
+			tree = a;
+			console.log(a);
+		}
+	} else {
+		// Sorry! No Web Storage support..
+	}
+}
+
+function saveLocalStorage(){
+	if (typeof(Storage) !== "undefined") {
+		localStorage.setItem("tree", JSON.stringify(tree));
+		console.log("save!")
+		console.log(tree);
+	} else {
+		// Sorry! No Web Storage support..
+	}
 }
 
 /*----------------------------------------------------------------------------------------------
 ---------------------------------------------EVENTS---------------------------------------------
 ----------------------------------------------------------------------------------------------*/
 window.onload = function() {
+	retrieveLocalStorage();
 	populateTree();
 };
-
-function onBarsButtonClick(){
-  if (sidebar.style.display === 'block') {
-    sidebar.style.display = 'none';
-    overlay.style.display = "none";
-  } else {
-    sidebar.style.display = 'block';
-    overlay.style.display = "block";
-  }
-}
-
-function onCloseSidebarButtonClick(){
-	console.log("triggered");
-  sidebar.style.display = "none";
-  overlay.style.display = "none";
-}
-
-function onOverlayClick(){
-  sidebar.style.display = "none";
-  overlay.style.display = "none";
-}
 
 function onFolderClick(_event){
 	let elt
@@ -254,6 +276,9 @@ function onFolderClick(_event){
 }
 
 function onFileInputChange(){
+	tree = [f1,f2,new Deck("solodeck1"),new Deck("solodeck2")];
+	saveLocalStorage();
+	retrieveLocalStorage();
 	fileReader.readAsArrayBuffer(fileInput.files[0]);
 }
 
